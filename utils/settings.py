@@ -2,10 +2,14 @@ import argparse
 from dataclasses import asdict, dataclass
 from typing import Any
 import os
+import sys
+sys.argv = sys.argv[:1]
 
 import configargparse
 from numpy import inf
 from numpy.distutils.misc_util import is_sequence
+
+sys.path.insert(0,'/Users/gadanimatteo/Desktop/SqueezingSimulation')
 
 from utils.logger import logger
 
@@ -25,7 +29,7 @@ class Settings:
     cmap_name: str = 'rainbow'  # cmap to use
     alpha: float = 0.3          # alpha channel value for bandwidth highlight
 
-    waist_vs: str = 'dc'        # decide against what parameter the waist is ploted
+    waist_vs: str = 'L'        # decide against what parameter the waist is ploted
 
     plot_bandwidth: bool = False    # plot bandwidth region
     plot_waist: bool = False        # plot waist for bow-tie
@@ -39,12 +43,12 @@ class Settings:
     c: float = 3e8  # speed of light (m/s)
 
     # -- Cavity characteristics -- #
-    fixed_length: float = 600e-3  # reference length value
+    fixed_length: float = 790e-3  # reference length value
     min_L: float = 200e-3
-    max_L: float = 100e-3
-    fixed_d_curved: float = 100e-3  # reference curved mirrors separation distance
+    max_L: float = 1000e-3
+    fixed_d_curved: float = 180e-3  # reference curved mirrors separation distance
     d_curved_min: float = 0.0  # distance between curved mirrors
-    d_curved_max: float = 100e-3
+    d_curved_max: float = 200e-3
 
     omega_c: float = 65000000.0             # bandwidth of the cavity
     cavity_loss: float = 0.004              # fictitious beam-splitter coefficient
@@ -53,21 +57,21 @@ class Settings:
     # -- Transmission coefficients -- #
     min_T: float = 0.1
     max_T: float = 0.3
-    R: float = 50e-3    # reference reflection coefficient value
+    R: float = 150e-3    # reference reflection coefficient value
     min_R: float = 25e-3
     max_R: float = 150e-3
     R1: float = 10e-2   # for Kaertner plot
     R2: float = 11e-2   # for Kaertner plot
 
     # -- Laser characteristics -- #
-    wavelength: float = 780.0e-9
+    wavelength: float = 852.0e-9
 
     # -- Bandwidth -- #
     central_freq: float = 6.0e6
     range_freq: float = 0.1  # 10% around central frequency
 
     # -- Crystal -- #
-    crystal_length: float = 10e-3
+    crystal_length: float = 20e-3
     min_lc: float = 5e-3
     max_lc: float = 30e-3
     crystal_index: float = 1.84  # PPKTP refraction index

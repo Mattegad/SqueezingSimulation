@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+sys.path.insert(0,'/Users/gadanimatteo/Desktop/SqueezingSimulation')
 from matplotlib.lines import Line2D  # For creating proxy artists
+
 
 from cavity.cavity_formulas import ABCD_Matrix, stability_condition
 from utils.settings import settings

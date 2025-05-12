@@ -1,7 +1,14 @@
+#%%
 import numpy as np
-
+import sys
+sys.path.insert(0,'/Users/gadanimatteo/Desktop/SqueezingSimulation')
 import cavity.finding_distances as fd
 from utils.settings import settings
+from cavity.ABCD_matrix import free_space
+from cavity.ABCD_matrix import curved_mirror
+from cavity.ABCD_matrix import thin_lense
+from cavity.ABCD_matrix import refract_interface
+
 
 
 # -- General cavity formulas -- #
@@ -67,7 +74,7 @@ def Pump_threshold(T, Loss, E):
     return ((T + Loss) ** 2) / (4 * E)
 
 
-# -- Ray propagation -- #
+# -- Ray propagation -- from spheric to plan #
 def ABCD_Matrix(L, d_curved, R, l_crystal, index_crystal=settings.crystal_index):
     """
     Ray transfer matrix for a half single pass in a ring bow-tie cavity.
@@ -79,10 +86,21 @@ def ABCD_Matrix(L, d_curved, R, l_crystal, index_crystal=settings.crystal_index)
     :param index_crystal: Index of refraction of non-linear medium (by default 1)
     :return: Tuple (A1, B1, C1, D1)
     """
-    A1 = 1 - (L - d_curved) / R
-    B1 = ((L - d_curved) / 2 + ((d_curved - l_crystal) / 2) * (1 - (L - d_curved) / R)) / index_crystal + l_crystal * (1 - (L - d_curved) / R) / 2
-    C1 = - 2 / R
-    D1 = (1 - (d_curved - l_crystal) / R) / index_crystal - l_crystal / R
+    M = (
+        free_space((L - d_curved)/2) @         # M1 → M2
+        curved_mirror(R) @       # M2
+        free_space((d_curved - l_crystal)/2) @          # M2 → M3
+        refract_interface(index_crystal,1) @       # M3
+        free_space(l_crystal/2) 
+    )
+    A1, B1, C1, D1 = M.flatten()
+    
+
+    # A1 = 1 - (L - d_curved) / R
+    # B1 = ((L - d_curved) / 2 + ((d_curved - l_crystal) / 2) * (1 - (L - d_curved) / R)) / index_crystal + l_crystal * (1 - (L - d_curved) / R) / 2
+    # C1 = - 2 / R
+    # D1 = (1 - (d_curved - l_crystal) / R) / index_crystal - l_crystal / R
+
     return A1, B1, C1, D1
 
     # MASADA
@@ -112,6 +130,14 @@ def z_parameter(A1, B1, C1, D1):
     return z1, z2
 
 
+def return_waist(d_curved, L, R, l_crystal, index_crystal=settings.crystal_index, wavelength=settings.wavelength): 
+    A1, B1, C1, D1 = ABCD_Matrix(L=L, d_curved=d_curved, R=R, l_crystal=l_crystal, index_crystal=index_crystal)
+    z1, z2 = z_parameter(A1, B1, C1, D1)
+    w1 = np.sqrt((wavelength / (index_crystal * np.pi)) * z1**(1/2))
+    w2 = np.sqrt((wavelength / (np.pi)) * z2**(1/2))
+    return w1, w2
+
+
 def Beam_waist(d_curved, L, R, l_crystal, index_crystal=settings.crystal_index, wavelength=settings.wavelength):
     """
     Calculates the beam waist size in radius at the center of the nonlinear optical crystal and the intermediate
@@ -139,7 +165,7 @@ def Beam_waist(d_curved, L, R, l_crystal, index_crystal=settings.crystal_index, 
 
     # w2 = index_crystal * w1 / np.sqrt((C1*temp1)**2 + D1**2)
 
-    valid_indices = (valid_indices_1, valid_indices_1)
+    valid_indices = (valid_indices_1, valid_indices_2)
 
     return z1, z2, w1, w2, valid_indices
 
@@ -192,3 +218,5 @@ def stability_condition(A, D):
     s = (A+D) / 2
     # check where -1 < (A+D)/2 < 1
     return np.logical_and(s > -1, s < 1)
+
+# %%

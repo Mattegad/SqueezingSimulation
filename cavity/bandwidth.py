@@ -1,8 +1,13 @@
+#%%
+
 from matplotlib.offsetbox import AnchoredText
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
 import numpy as np
+import sys
+
+sys.path.insert(0,'/Users/gadanimatteo/Desktop/SqueezingSimulation')
 
 from utils.settings import settings
 import utils.plot_parameters as mplp
@@ -92,3 +97,5 @@ def bandwidth():
              rotation=270, transform=fig_bandwidth.transFigure, fontsize=mplp.MEDIUM_SIZE)
 
     plt.show()
+
+#%%

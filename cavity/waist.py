@@ -1,3 +1,5 @@
+#%%
+
 from matplotlib.offsetbox import AnchoredText
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -5,6 +7,9 @@ from matplotlib.lines import Line2D
 
 import numpy as np
 import pandas as pd
+import sys 
+
+sys.path.insert(0,'/Users/gadanimatteo/Desktop/SqueezingSimulation')
 
 import cavity.cavity_formulas as cf
 from utils.settings import settings
@@ -13,6 +18,7 @@ import utils.plot_parameters as pm
 import csv
 import os
 from datetime import datetime
+
 
 
 def waist():
@@ -34,7 +40,8 @@ def waist():
             'wavelength': settings.wavelength
         }
 
-        plot_vs = settings.waist_vs  # settings to plot waist against specific parameter
+        #plot_vs = settings.waist_vs  # settings to plot waist against specific parameter
+        plot_vs = 'dc'
 
         # Determine the sweep variable and generate the array accordingly
         if plot_vs == 'dc':
@@ -100,14 +107,14 @@ def waist():
 
         color1 = 'tab:red'
         ax1.set_xlabel(xlabel)
-        ax1.set_ylabel(r'Beam waist size $w_1$ (mm)', color=color1)
-        ax1.plot(sweep_array[valid_indices[0]] * 1e3, w1[valid_indices[0]] * 1e3, color=color1)
+        ax1.set_ylabel(r'Beam waist size $w_1$ (um)', color=color1)
+        ax1.plot(sweep_array[valid_indices[0]] * 1e3, w1[valid_indices[0]] * 1e6, color=color1)
         ax1.tick_params(axis='y', labelcolor=color1)
 
         color2 = 'tab:blue'
         ax2 = ax1.twinx()
-        ax2.set_ylabel(r'Beam waist size $w_2$ (mm)', color=color2)
-        ax2.plot(sweep_array[valid_indices[1]] * 1e3, w2[valid_indices[1]] * 1e3, color=color2)
+        ax2.set_ylabel(r'Beam waist size $w_2$ (um)', color=color2)
+        ax2.plot(sweep_array[valid_indices[1]] * 1e3, w2[valid_indices[1]] * 1e6, color=color2)
         ax2.tick_params(axis='y', labelcolor=color2)
 
         # Display parameters used
@@ -270,3 +277,6 @@ def angle_evolution(L, dc):
     plt.tight_layout()
     plt.show()
 
+
+
+# %%

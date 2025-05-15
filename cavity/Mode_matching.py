@@ -50,7 +50,7 @@ def ABCD_lenses(f1, f2, d12, d2):
 def systeme(d_curved, L, R, l_crystal, f1, f2, d12, d2, l1):
     w2 = return_waist(d_curved, L, R, l_crystal)[1]
     z_r = np.pi*w2**2/settings.wavelength
-    z_rc = 0.6e-3    # waist at the exit of the fiber
+    z_rc = 0.85e-3    # waist at the exit of the fiber
     A, B, C, D = ABCD_lenses(f1, f2, d12, d2)
     return np.abs(z_r/z_rc * (A*C*z_rc**2 + B*D) + l1/2)**2 + np.abs(C**2*z_rc**2 + D**2 - z_rc/z_r)**2
 
@@ -62,18 +62,18 @@ d_curved = 0.185
 L = 0.79
 R = 0.15
 l_crystal = 0.02
-f1 = 0.1
-f2 = 0.05
+f1 = 0.15
+f2 = 0.2
 l1 = 0.209
 w2 = return_waist(d_curved, L, R, l_crystal)[1]
 z_r = np.pi*w2**2/settings.wavelength
-z_rc = 0.6e-3
+z_rc = 0.85e-3
 
 
 def residuals(vars):
     d12, d2 = vars
     A, B, C, D = ABCD_lenses(f1, f2, d12, d2)
-    eq1 = np.abs(z_r/z_rc * (A*C*z_rc**2 + B*D) + l1/2)
+    eq1 = np.abs(A*C*z_rc**2 + B*D)
     eq2 = np.abs(C**2*z_rc**2 + D**2 - z_rc/z_r)
     return eq1**2 + eq2**2
 
@@ -81,7 +81,7 @@ def residuals(vars):
 # %%
 
 initial_guess = [0.1, 0.1]
-bounds = ((0,0.6), (0,0.6))
+bounds = ((0,100), (0,100))
 result = minimize(residuals, initial_guess, bounds=bounds, method='L-BFGS-B')
 # %%
 
@@ -93,7 +93,7 @@ cond2 = np.zeros((len(list_d12), len(list_d2)))
 
 for i in range(len(list_d12)): 
     for j in range(len(list_d2)):
-        cond1[i, j] = systeme(0.185, 0.790, 0.15, 0.02, 0.1, 0.05, list_d12[i], list_d2[j], 0.209)
+        cond1[i, j] = systeme(d_curved, L, R, l_crystal, f1, f2, list_d12[i], list_d2[j], l1)
     
 
 D12, D2 = np.meshgrid(list_d12, list_d2)
@@ -108,7 +108,7 @@ plt.rcParams.update({
 plt.pcolormesh(D12*100, D2*100, cond1, norm=colors.LogNorm(vmin=cond1.min(), vmax=1e5))
 plt.xlabel(r'$d_{12}$ (cm)')
 plt.ylabel('$d_2$ (cm)')
-plt.ylim(0,20)
+plt.ylim(0,100)
 plt.colorbar()
 
 # %%

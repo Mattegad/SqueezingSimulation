@@ -9,9 +9,9 @@ import numpy as np
 import pandas as pd
 import sys 
 
-sys.path.insert(0,'/Users/gadanimatteo/Documents/Stage LKB/SqueezingSimulation')
+sys.path.insert(0,'/Users/gadanimatteo/Documents/Stage:Thèse LKB/SqueezingSimulation')
 
-import cavity.cavity_formulas as cf
+import cavity_formulas as cf
 from utils.settings import settings
 import utils.plot_parameters as pm
 
@@ -121,6 +121,9 @@ def waist():
         ax2.set_ylabel(r'Beam waist size $w_2$ ($\mu$m)', color=color2, fontsize = 35)
         ax2.plot(sweep_array[valid_indices[1]] * 1e3, w2[valid_indices[1]] * 1e6, color=color2)
         ax2.tick_params(axis='y', labelcolor=color2, labelsize=30)
+
+        print(sweep_array[valid_indices[1][120]] * 1e3)
+        print(w2[valid_indices[1][120]] * 1e6)
 
         # Display parameters used
         #text_box = AnchoredText(box_text, frameon=True, loc='upper right', pad=0.5)

@@ -14,11 +14,11 @@ plot_threshold: False
 plug_value: False
 
 # Wavelength
-wavelength: 780e-9
+wavelength: 852e-9
 
 # Cavity parameters
-fixed_length: 500e-3
-fixed_d_curved: 120e-3
+fixed_length: 790e-3
+fixed_d_curved: 180e-3
 min_L: 200e-3
 max_L: 900e-3
 cavity_loss: 0.03

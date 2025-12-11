@@ -2,12 +2,12 @@
 import numpy as np
 import sys
 sys.path.insert(0,'/Users/gadanimatteo/Documents/Stage LKB/SqueezingSimulation')
-import cavity.finding_distances as fd
+import finding_distances as fd
 from utils.settings import settings
-from cavity.ABCD_matrix import free_space
-from cavity.ABCD_matrix import curved_mirror
-from cavity.ABCD_matrix import thin_lense
-from cavity.ABCD_matrix import refract_interface
+from ABCD_matrix import free_space
+from ABCD_matrix import curved_mirror
+from ABCD_matrix import thin_lense
+from ABCD_matrix import refract_interface
 
 
 

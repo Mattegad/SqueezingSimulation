@@ -9,8 +9,7 @@ import configargparse
 from numpy import inf
 from numpy.distutils.misc_util import is_sequence
 
-sys.path.insert(0,'/Users/gadanimatteo/Desktop/SqueezingSimulation')
-
+sys.path.insert(0,'/Users/gadanimatteo/Documents/Stage:Thèse LKB/SqueezingSimulation')
 from utils.logger import logger
 
 

@@ -506,7 +506,7 @@ z_target = 524   # mm
 delta_z  = 0.05*z_target    # mm width of the band (ex: 524 ± 20)
 w_target = 250   # µm
 delta_w  = 0.05*w_target    # µm width around the target (250 ± 20)
-input_waist_val = np.linspace(0.5, 1.5, 400)    # mm
+input_waist_val = np.linspace(0.7, 0.9, 400)    # mm
 d_vals = np.linspace(200, 500, 400)                # mm
 
 
@@ -539,7 +539,7 @@ plot = {"Radius": r_waist_out_map, "Position": z_waist_out_map}
 contour = {"Radius": w_target, "Position": z_target}
 delta_contour = {"Radius": delta_w, "Position": delta_z}
 colorlabel = {"Radius": "Waist radius (µm)", "Position": "Output waist position (mm)"}
-which_plot = "Radius"  # "Radius" or "Position"
+which_plot = "Position"  # "Radius" or "Position"
 which_contour = contour[which_plot]
 which_colorlabel = colorlabel[which_plot]
 which_delta = delta_contour[which_plot]
@@ -567,6 +567,10 @@ plt.ylabel("Input waist (mm)")
 plt.contour(d_vals, input_waist_val, plot[which_plot], 
             levels=[which_contour-which_delta, which_contour+which_delta], 
             colors='white', linestyles='dashed', linewidths=1.2)
+
+plt.contour(d_vals, input_waist_val, plot["Radius"], 
+            levels=[250-delta_w, 250+delta_w], 
+            colors='black', linestyles='dashed', linewidths=1.2)
 
 plt.show()
 # %%

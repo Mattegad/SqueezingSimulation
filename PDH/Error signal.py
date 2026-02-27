@@ -15,7 +15,7 @@ r3 = r2
 r4 = r2
 L = 790e-3  # taille de la cavité
 lamb = 852e-9  # longueur d'onde du laser
-Omega = 20e8  # fréquence de modulation
+Omega = 1e6  # fréquence de modulation
 c = 3e8
 beta = 0.05          # indice de modulation
 T = 0.2   # période du piezo 
@@ -81,8 +81,6 @@ y_vals = [phase(t, Omega) for t in t_vals]
 
 plt.plot(t_vals, [np.abs(r_cav(r1, r2, r3, r4, phase(t,Omega_las)))**2 for t in t_vals])
 
-
-# %%
 
 # %%
 

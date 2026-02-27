@@ -53,19 +53,17 @@ def plot_fit_xy(z_data, w_data_x, w_data_y, lam_nm, fit_x, fit_y):
 # -------------------------------
 # Exemple d'utilisation
 # -------------------------------
-z_meas = 25.1*np.array([3, 5, 7, 9, 11, 13, 15, 18, 21])  # mm
-z_meas2 = 25.1*np.array([5, 7, 9, 11, 13, 15, 18, 21])  # mm
-w_meas_x = 0.5*np.array([670, 620, 550, 500, 480, 475, 490, 510, 575]) # µm
-w_meas_y = 0.5*np.array([680, 610, 500, 480, 465, 460, 480, 520, 580]) # µm
-w_meas_x2 = 0.5*np.array([645, 605, 540, 505, 500, 510, 565, 590]) # µm
-w_meas_y2 = 0.5*np.array([635, 550, 515, 495, 485, 505, 565, 600]) # µm
+z_meas = np.array([200, 440, 540])
+w_meas_x = 0.5*np.array([2200, 4100, 5000]) # µm
+w_meas_y = 0.5*np.array([2200, 4100, 5000]) # µm
 
-res_x = fit_beam_waist(z_meas2, w_meas_x2, lam_nm=852)
-res_y = fit_beam_waist(z_meas2, w_meas_y2, lam_nm=852)
+
+res_x = fit_beam_waist(z_meas, w_meas_x, lam_nm=426)
+res_y = fit_beam_waist(z_meas, w_meas_y, lam_nm=426)
 
 print("Fit X:", res_x)
 print("Fit Y:", res_y)
 
 # plot XY ensemble
-plot_fit_xy(z_meas2, w_meas_x2, w_meas_y2, 852,
+plot_fit_xy(z_meas, w_meas_x, w_meas_y, 426,
             res_x["fit_params"], res_y["fit_params"])

@@ -30,10 +30,10 @@ z_cav = 880.9      # mm
 zR_cav = (np.pi * w_cav**2 / (lam0*1e-3))*1e-3  # mm
 R = 150  # mm rayon de courbure des miroirs
 M1 = z_cav - 211/2  # mm
-M2 = z_cav + 211/2  # mm
-M3 = z_cav + 198 + 211/2  # mm
+M2 = M1 + 211  # mm
+M3 = M2 + 198  # mm
 M4 = M3 + 183  # mm
-M1bis = M4+198  # mm position miroir de repli
+M1bis = M4 + 198  # mm position miroir de repli
 l_cristal = 20  # mm
 n_cristal = 1.84  # indice du cristal
 pos_cristal = M3 + 183/2  # mm position du cristal
@@ -238,7 +238,7 @@ def propagation_interactive(l1, l2, M3, M4, input_waist=input_waist):
     "L1": r1[-1],
     "L2": r2[-1],
     "M1": r3[int((M1-l2)/(M3-l2)*1000)],  # r3 à la position de M1 = r3[(M1 - l2)/ (M3 - l2)]
-    "M2": r3[int((M2-l2)/(M3-l2)*1000)],  # r3 à la position de M2 = r3[(M2 - l2)/  
+    "M2": r3[int((M2-l2)/(M3-l2)*1000)],  # r3 à la position de M2 = r3[(M2 - l2)/ (M3 - l2)]
     "M3": r3[-1],
     "M4": r6[-1],
     "M1'": r7[int((M1bis-M4)/ (max_x)*(300-1))]  # r7 à la position de M1' = r7[(M1' - M4)/ (max_x) * (300-1)]
@@ -301,6 +301,7 @@ def propagation_interactive(l1, l2, M3, M4, input_waist=input_waist):
     ax.set_ylabel("Beam waist (µm)", fontsize = 23)
     #ax.grid(True)
     ax.set_xlim(-100, max_x)
+    #ax.set_ylim(-100,100)
     ax.set_ylim(-input_waist*1500, input_waist*1500)
     ax.axhline(w_cav, linewidth = 1)
     ax.axhline(-w_cav, linewidth = 1)
